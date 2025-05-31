@@ -16,7 +16,14 @@ const loadWorkoutButton = document.getElementById("load-workout-btn");
 
 // Workout Creation State
 let newWorkoutIntervals = [];
-let workoutRoutine = [];
+let workoutRoutine = []; // Mutable workout routine
+
+// State Variables
+let currentIntervalIndex = 0;
+let currentInterval = null;
+let timeLeft = 0;
+let timerInterval = null;
+let isRunning = false;
 
 // Add interval to the workout list
 function addIntervalToList() {
@@ -70,7 +77,7 @@ function renderWorkoutList() {
 }
 
 // Load workout into timer
-function loadWorkout() {
+function loadUserWorkoutIntoTimer() {
   if (newWorkoutIntervals.length === 0) {
     alert("Please add at least one interval to your workout");
     return;
@@ -101,9 +108,134 @@ function loadWorkout() {
   document.getElementById("app-view").style.display = "block";
 }
 
-// Event Listeners for Workout Creation
+// Reset the workout
+function resetWorkout() {
+  pauseTimer();
+
+  // Check if there's a workout routine
+  if (workoutRoutine.length === 0) {
+    timeDisplay.textContent = "00:00";
+    intervalNameDisplay.textContent = "No workout loaded";
+    nextIntervalDisplay.textContent = "Add intervals to create a workout";
+    startButton.disabled = true;
+    return;
+  }
+
+  currentIntervalIndex = 0;
+  currentInterval = workoutRoutine[currentIntervalIndex];
+  timeLeft = currentInterval.duration;
+  updateIntervalNameDisplay();
+  updateDisplay();
+  updateNextIntervalPreview();
+  startButton.disabled = false;
+}
+
+// Update the interval name display
+function updateIntervalNameDisplay() {
+  if (!currentInterval) {
+    intervalNameDisplay.textContent = "No workout loaded";
+    return;
+  }
+  intervalNameDisplay.textContent = `Current: ${currentInterval.name}`;
+}
+
+// Update the next interval preview
+function updateNextIntervalPreview() {
+  if (!currentInterval) {
+    nextIntervalDisplay.textContent = "Add intervals to create a workout";
+    return;
+  }
+
+  if (currentIntervalIndex < workoutRoutine.length - 1) {
+    nextIntervalDisplay.textContent = `Next: ${workoutRoutine[currentIntervalIndex + 1].name}`;
+  } else {
+    nextIntervalDisplay.textContent = "Last Interval";
+  }
+}
+
+// Update the time display
+function updateDisplay() {
+  timeDisplay.textContent = formatTime(timeLeft);
+}
+
+// Start the timer
+function startTimer() {
+  if (workoutRoutine.length === 0) {
+    alert("Please create and load a workout first");
+    return;
+  }
+
+  if (!isRunning && timeLeft > 0) {
+    isRunning = true;
+    startButton.disabled = true;
+    pauseButton.disabled = false;
+
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      updateDisplay();
+
+      // Play countdown sound for last 3 seconds
+      if (timeLeft <= 3 && timeLeft > 0) {
+        playBeep(400, 100);
+      }
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        isRunning = false;
+        console.log(`Timer finished for ${currentInterval.name}!`);
+
+        // Play interval end sound
+        playIntervalEndSound();
+
+        // Move to next interval if available
+        if (currentIntervalIndex < workoutRoutine.length - 1) {
+          loadInterval(currentIntervalIndex + 1);
+          startTimer(); // Auto-start next interval
+        } else {
+          // Play workout complete sound
+          playWorkoutCompleteSound();
+          console.log("Workout Complete!");
+          nextIntervalDisplay.textContent = "Workout Complete!";
+          startButton.disabled = true;
+          pauseButton.disabled = true;
+        }
+      }
+    }, 1000);
+  }
+}
+
+// Pause the timer
+function pauseTimer() {
+  if (isRunning) {
+    clearInterval(timerInterval);
+    isRunning = false;
+    startButton.disabled = false;
+    pauseButton.disabled = true;
+  }
+}
+
+// Event Listeners
+startButton.addEventListener("click", () => {
+  initAudio(); // Initialize audio on first user interaction
+  startTimer();
+});
+pauseButton.addEventListener("click", pauseTimer);
+resetButton.addEventListener("click", resetWorkout);
 addIntervalButton.addEventListener("click", addIntervalToList);
-loadWorkoutButton.addEventListener("click", loadWorkout);
+loadWorkoutButton.addEventListener("click", loadUserWorkoutIntoTimer);
+
+// Initialize the application
+function initializeApp() {
+  // Set initial button states
+  startButton.disabled = true;
+  pauseButton.disabled = true;
+
+  // Initialize workout
+  resetWorkout();
+}
+
+// Start the application
+initializeApp();
 
 // Audio Context and Sound Generation
 let audioContext = null;
@@ -148,13 +280,6 @@ function playWorkoutCompleteSound() {
   setTimeout(() => playBeep(1000, 400), 500);
 }
 
-// State Variables
-let currentIntervalIndex = 0;
-let currentInterval = workoutRoutine[currentIntervalIndex];
-let timeLeft = currentInterval.duration;
-let timerInterval = null;
-let isRunning = false;
-
 // Format time as MM:SS
 function formatTime(seconds) {
   const minutes = Math.floor(seconds / 60);
@@ -171,102 +296,3 @@ function loadInterval(index) {
   updateDisplay();
   updateNextIntervalPreview();
 }
-
-// Update the interval name display
-function updateIntervalNameDisplay() {
-  intervalNameDisplay.textContent = `Current: ${currentInterval.name}`;
-}
-
-// Update the next interval preview
-function updateNextIntervalPreview() {
-  if (currentIntervalIndex < workoutRoutine.length - 1) {
-    nextIntervalDisplay.textContent = `Next: ${workoutRoutine[currentIntervalIndex + 1].name}`;
-  } else {
-    nextIntervalDisplay.textContent = "Last Interval";
-  }
-}
-
-// Update the time display
-function updateDisplay() {
-  timeDisplay.textContent = formatTime(timeLeft);
-}
-
-// Start the timer
-function startTimer() {
-  if (workoutRoutine.length === 0) {
-    alert("Please create and load a workout first");
-    return;
-  }
-
-  if (!isRunning && timeLeft > 0) {
-    isRunning = true;
-    timerInterval = setInterval(() => {
-      timeLeft--;
-      updateDisplay();
-
-      // Play countdown sound for last 3 seconds
-      if (timeLeft <= 3 && timeLeft > 0) {
-        playBeep(400, 100);
-      }
-
-      if (timeLeft <= 0) {
-        clearInterval(timerInterval);
-        isRunning = false;
-        console.log(`Timer finished for ${currentInterval.name}!`);
-
-        // Play interval end sound
-        playIntervalEndSound();
-
-        // Move to next interval if available
-        if (currentIntervalIndex < workoutRoutine.length - 1) {
-          loadInterval(currentIntervalIndex + 1);
-          startTimer(); // Auto-start next interval
-        } else {
-          // Play workout complete sound
-          playWorkoutCompleteSound();
-          console.log("Workout Complete!");
-          nextIntervalDisplay.textContent = "Workout Complete!";
-        }
-      }
-    }, 1000);
-  }
-}
-
-// Pause the timer
-function pauseTimer() {
-  if (isRunning) {
-    clearInterval(timerInterval);
-    isRunning = false;
-  }
-}
-
-// Reset the workout
-function resetWorkout() {
-  pauseTimer();
-
-  // Check if there's a workout routine
-  if (workoutRoutine.length === 0) {
-    timeDisplay.textContent = "00:00";
-    intervalNameDisplay.textContent = "No workout loaded";
-    nextIntervalDisplay.textContent = "Add intervals to create a workout";
-    return;
-  }
-
-  currentIntervalIndex = 0;
-  currentInterval = workoutRoutine[currentIntervalIndex];
-  timeLeft = currentInterval.duration;
-  updateIntervalNameDisplay();
-  updateDisplay();
-  updateNextIntervalPreview();
-}
-
-// Event Listeners
-startButton.addEventListener("click", () => {
-  initAudio(); // Initialize audio on first user interaction
-  startTimer();
-});
-pauseButton.addEventListener("click", pauseTimer);
-resetButton.addEventListener("click", resetWorkout);
-
-// Initialize workout
-resetWorkout();
