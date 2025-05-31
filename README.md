@@ -1,7 +1,10 @@
-# 🏋️ Interval Training Timer Web App
+# ⏱️ Interval Timer – Focus & Work Cycle Manager
 
-A responsive, offline-ready interval timer for HIIT, Tabata, Circuit Training, and custom workout routines.  
-Built with Django (backend) and vanilla JavaScript (frontend), it allows users to create, manage, and execute personalized workout sessions with visual progress, audio cues, and full offline support.
+This project began as a tool to help me structure my **working time** — not as a fitness tracker.  
+While it supports HIIT, Tabata, and other workout formats, its real purpose is to serve as a **customizable interval timer for deep work**, task batching, focus sessions, and structured breaks.
+
+Think of it as a **flexible Pomodoro-style timer**, built with offline support, visual feedback, and interval control — but without the rigid 25/5 rules.
+t with Django (backend) and vanilla JavaScript (frontend), it allows users to create, manage, and execute personalized workout sessions with visual progress, audio cues, and full offline support.
 
 🔗 **Live Demo**: [mhbb.me](https://mhbb.me/interval-timer/))
 
@@ -10,12 +13,14 @@ Built with Django (backend) and vanilla JavaScript (frontend), it allows users t
 ## ✨ Features
 
 - 🛠️ **Custom Workout Builder**
+
   - Create & name routines
   - Add intervals (timed or reps-based)
   - Drag & drop reordering
   - Save, edit, delete, or duplicate routines
 
 - ⏱️ **Smart Timer**
+
   - Run workouts with real-time interval tracking
   - Visual progress bars for intervals and total session
   - Audio cues and voice announcements
@@ -23,10 +28,12 @@ Built with Django (backend) and vanilla JavaScript (frontend), it allows users t
   - Works even in background or locked screen (PWA)
 
 - 📅 **Training Plans**
+
   - Chain multiple workouts into a weekly or daily plan
   - One-click execution of full plans
 
 - 🔈 **Audio / TTS Cues**
+
   - Start/end sounds
   - Countdown beeps
   - Optional spoken interval names
@@ -42,9 +49,8 @@ Built with Django (backend) and vanilla JavaScript (frontend), it allows users t
 
 - **Frontend**: HTML, CSS, JavaScript (ES6+)
 - **Backend**: Django, Django REST Framework
-- **Storage**: 
-- **PWA**: 
-
+- **Storage**:
+- **PWA**:
 
 ## 📄 License
 
@@ -66,4 +72,3 @@ If you improve a feature or fix a bug, please submit a PR — but remember your 
 
 Built with ❤️ by \[mojtaba habibi]
 → [https://mhbb.me](https://mhbb.me)
-
