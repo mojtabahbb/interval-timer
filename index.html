@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interval Timer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Interval Timer</h1>
+    </header>
+
+    <main>
+      <div id="workout-creation-area">
+        <h2>Create Your Workout</h2>
+        <div class="interval-input-form">
+          <div class="input-group">
+            <label for="new-interval-name">Interval Name:</label>
+            <input type="text" id="new-interval-name" placeholder="e.g., Push-ups" />
+          </div>
+          <div class="input-group">
+            <label for="new-interval-minutes">Duration:</label>
+            <div class="duration-inputs">
+              <input type="number" id="new-interval-minutes" min="0" max="59" placeholder="MM" />
+              <span>:</span>
+              <input type="number" id="new-interval-seconds" min="0" max="59" placeholder="SS" />
+            </div>
+          </div>
+          <button type="button" id="add-interval-btn">Add Interval to Workout</button>
+        </div>
+        <div class="workout-list-container">
+          <h3>Current Workout</h3>
+          <ul id="current-workout-list"></ul>
+          <button type="button" id="load-workout-btn">Load and Use This Workout</button>
+        </div>
+      </div>
+
+      <div id="app-view">
+        <div id="timer-display-area">
+          <div id="current-interval-name">Current Exercise:</div>
+          <div id="time-remaining">00:00</div>
+          <div id="next-interval-preview">Next: Rest</div>
+          <div id="timer-controls">
+            <button type="button" id="start-btn">Start</button>
+            <button type="button" id="pause-btn">Pause</button>
+            <button type="button" id="reset-btn">Reset</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <!-- Footer content will be added later -->
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
