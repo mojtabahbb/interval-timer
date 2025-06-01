@@ -49,8 +49,6 @@ t with Django (backend) and vanilla JavaScript (frontend), it allows users to cr
 
 - **Frontend**: HTML, CSS, JavaScript (ES6+)
 - **Backend**: Django, Django REST Framework
-- **Storage**:
-- **PWA**:
 
 ## 📄 License
 
