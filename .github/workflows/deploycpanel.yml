@@ -30,7 +30,11 @@ jobs:
           # protocol:    ftps                         # or “ftp” (default)
           port:        21
           exclude: |
-            **/.git*
-            **/.github/**
+            # --- SamKirkland defaults -----------------
+            **/.git*/**          # ⇠  .git + everything inside
+            **/.git*             # ⇠  .gitignore, .gitattributes …
+            **/.github*/**       # ⇠  GitHub workflow dir
+            **/node_modules/**   # ⇠  also in the default set
+            # --- your own additions -------------------
             README.md
           # dangerous-clean-slate: true               # remove remote extras
