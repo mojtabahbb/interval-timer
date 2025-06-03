@@ -28,7 +28,6 @@ jobs:
           server-dir:  /interval-timer/     # ← keep the trailing slash!
 
           # FIRST run only – wipes everything that’s already on the server
-          dangerous-clean-slate: true       # ⚠️  remove after the first clean deploy
 
           exclude: |                        # re-add defaults, then extras
             **/.git*
