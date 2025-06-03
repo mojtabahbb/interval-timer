@@ -25,7 +25,7 @@ jobs:
           server:       ${{ secrets.FTP_SERVER }}
           username:     ${{ secrets.FTP_USERNAME }}
           password:     ${{ secrets.FTP_PASSWORD }}
-          server-dir:   /interval-timer        # adjust as needed
+          server-dir:   /interval-timer/        # adjust as needed
 
           # ⬇️ First run only – removes everything that shouldn’t be there
           dangerous-clean-slate: true          # ← delete or comment out after first success
@@ -37,4 +37,3 @@ jobs:
             **/.github*/**         # GitHub workflows & templates
             **/node_modules/**     # (default)
             README.md              # 👈 your custom ignore
-
