@@ -25,7 +25,6 @@ jobs:
           server:      ${{ secrets.FTP_SERVER }}      
           username:    ${{ secrets.FTP_USERNAME }}
           password:    ${{ secrets.FTP_PASSWORD }}
-          server-dir:  /interval-timer                  # or add as a secret
           # Optional quality-of-life switches ↓
           # protocol:    ftps                         # or “ftp” (default)
           # port:        21
