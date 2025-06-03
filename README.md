@@ -6,7 +6,7 @@ While it supports HIIT, Tabata, and other workout formats, its real purpose is t
 Think of it as a **flexible Pomodoro-style timer**, built with offline support, visual feedback, and interval control — but without the rigid 25/5 rules.
 t with Django (backend) and vanilla JavaScript (frontend), it allows users to create, manage, and execute personalized workout sessions with visual progress, audio cues, and full offline support.
 
-🔗 **Live Demo**: [mhbb.me](https://mhbb.me/interval-timer/))
+🔗 **Live Demo**: [mhbb.me](https://mhbb.me/forfun/interval-timer/))
 
 ---
 

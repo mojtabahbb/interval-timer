@@ -2,9 +2,8 @@ name: Publish Website to cPanel
 
 on:
   push:
-    # Change this to whatever branch should trigger a deploy
     branches: [ "main" ]        # or "master"
-  workflow_dispatch:            # 👉 manual “Run workflow” button
+  workflow_dispatch:            
 
 jobs:
   ftp-deploy:
@@ -12,24 +11,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1 - Get the code the commit just pushed
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2        # two commits is enough for diff/rollback
+          fetch-depth: 2        
 
-      # 2 - Sync files to your cPanel account
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server:      ${{ secrets.FTP_SERVER }}
           username:    ${{ secrets.FTP_USERNAME }}
           password:    ${{ secrets.FTP_PASSWORD }}
-          server-dir:  /interval-timer/     # ← keep the trailing slash!
+          server-dir:  /interval-timer/    
+          
 
-          # FIRST run only – wipes everything that’s already on the server
-
-          exclude: |                        # re-add defaults, then extras
+          exclude: |                       
             **/.git*
             **/.git*/**
             **/node_modules/**
