@@ -28,7 +28,7 @@ jobs:
           server-dir:  /interval-timer                  # or add as a secret
           # Optional quality-of-life switches ↓
           # protocol:    ftps                         # or “ftp” (default)
-          port:        21
+          # port:        21
           exclude: |
             **/.git*
             **/.github/**
