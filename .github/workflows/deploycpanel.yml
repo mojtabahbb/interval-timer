@@ -1,40 +1,18 @@
-name: Publish Website to cPanel
+name: 📂 Sync files
+uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+with:
+  server:       ${{ secrets.FTP_SERVER }}
+  username:     ${{ secrets.FTP_USERNAME }}
+  password:     ${{ secrets.FTP_PASSWORD }}
+  server-dir:   /interval-timer        # adjust as needed
 
-on:
-  push:
-    # Change this to whatever branch should trigger a deploy
-    branches: [ "main" ]        # or "master"
-  workflow_dispatch:            # 👉 manual “Run workflow” button
+  # ⬇️ First run only – removes everything that shouldn’t be there
+  dangerous-clean-slate: true          # ← delete or comment out after first success
 
-jobs:
-  ftp-deploy:
-    name: Deploy via FTP
-    runs-on: ubuntu-latest
-
-    steps:
-      # 1 - Get the code the commit just pushed
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2        # two commits is enough for diff/rollback
-
-      # 2 - Sync files to your cPanel account
-      - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5   # latest as of Mar 2025 :contentReference[oaicite:0]{index=0}
-        with:
-          server:      ${{ secrets.FTP_SERVER }}      
-          username:    ${{ secrets.FTP_USERNAME }}
-          password:    ${{ secrets.FTP_PASSWORD }}
-          server-dir:  /interval-timer/                  # or add as a secret
-          # Optional quality-of-life switches ↓
-          # protocol:    ftps                         # or “ftp” (default)
-          port:        21
-          exclude: |
-            # --- SamKirkland defaults -----------------
-            **/.git*/**          # ⇠  .git + everything inside
-            **/.git*             # ⇠  .gitignore, .gitattributes …
-            **/.github*/**       # ⇠  GitHub workflow dir
-            **/node_modules/**   # ⇠  also in the default set
-            # --- your own additions -------------------
-            README.md
-          # dangerous-clean-slate: true               # remove remote extras
+  # Re-add the defaults, then any extras you need
+  exclude: |
+    **/.git*/**            # .git directory + contents
+    **/.git*               # .gitignore, .gitattributes, …
+    **/.github*/**         # GitHub workflows & templates
+    **/node_modules/**     # (default)
+    README.md              # 👈 your custom ignore
