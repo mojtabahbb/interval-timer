@@ -64,17 +64,64 @@ function renderWorkoutList() {
   currentWorkoutList.innerHTML = "";
   newWorkoutIntervals.forEach((interval, index) => {
     const li = document.createElement("li");
+    li.dataset.index = index;
+
     const minutes = Math.floor(interval.duration / 60);
     const seconds = interval.duration % 60;
     const durationStr = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
-    li.innerHTML = `
+    const intervalInfo = document.createElement("div");
+    intervalInfo.className = "interval-info";
+    intervalInfo.innerHTML = `
       <span>${interval.name}</span>
       <span>${durationStr}</span>
     `;
+
+    const controls = document.createElement("div");
+    controls.className = "interval-controls";
+    controls.innerHTML = `
+      <button class="delete-btn" title="Delete interval">🗑️</button>
+      <button class="move-btn up-btn" title="Move up" ${index === 0 ? "disabled" : ""}>⬆️</button>
+      <button class="move-btn down-btn" title="Move down" ${index === newWorkoutIntervals.length - 1 ? "disabled" : ""}>⬇️</button>
+    `;
+
+    li.appendChild(intervalInfo);
+    li.appendChild(controls);
     currentWorkoutList.appendChild(li);
   });
 }
+
+// Handle interval list interactions
+function handleIntervalListClick(event) {
+  const target = event.target;
+  if (!target.matches(".delete-btn, .up-btn, .down-btn")) return;
+
+  const listItem = target.closest("li");
+  if (!listItem) return;
+
+  const index = parseInt(listItem.dataset.index);
+
+  if (target.classList.contains("delete-btn")) {
+    // Delete the interval
+    newWorkoutIntervals.splice(index, 1);
+  } else if (target.classList.contains("up-btn")) {
+    // Move interval up
+    if (index > 0) {
+      [newWorkoutIntervals[index], newWorkoutIntervals[index - 1]] = [newWorkoutIntervals[index - 1], newWorkoutIntervals[index]];
+    }
+  } else if (target.classList.contains("down-btn")) {
+    // Move interval down
+    if (index < newWorkoutIntervals.length - 1) {
+      [newWorkoutIntervals[index], newWorkoutIntervals[index + 1]] = [newWorkoutIntervals[index + 1], newWorkoutIntervals[index]];
+    }
+  }
+
+  // Re-render the list with updated order
+  renderWorkoutList();
+}
+
+// Add event listener for interval list interactions
+currentWorkoutList.addEventListener("click", handleIntervalListClick);
 
 // Load workout into timer
 function loadUserWorkoutIntoTimer() {
