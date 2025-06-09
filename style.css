@@ -230,38 +230,6 @@ footer {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.interval-controls {
-    display: flex;
-    gap: 0.5rem;
-    margin-left: 1rem;
-}
-
-.interval-controls button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-}
-
-.interval-controls button:hover {
-    background-color: #f0f0f0;
-}
-
-.interval-controls button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.delete-btn {
-    color: #e74c3c;
-}
-
-.move-btn {
-    color: #3498db;
-}
-
 #load-workout-btn {
     background-color: #27ae60;
     color: white;
