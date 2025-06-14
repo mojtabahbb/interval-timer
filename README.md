@@ -62,7 +62,7 @@ but **any modifications must also be open-sourced under the same license**.
 ## 🙌 Contributing
 
 Pull requests are welcome!
-If you improve a feature or fix a bug, please submit a PR — but remember your version must remain open-source under GPL-3.0.
+If you improve a feature or fix a bug, please submit a PR .
 
 ---
 
